@@ -1,0 +1,35 @@
+---
+- name: Generate VLAN configuration from survey input
+  hosts: localhost
+  gather_facts: false
+  become: true
+  vars:
+    file_loc: "/tmp/vlan-config.conf"
+    result_loc: "/tmp/vlan-result.conf"
+
+  tasks:
+    - name: Ensure output directory exists
+      file:
+        path: "/tmp"
+        state: directory
+        mode: '0755'
+
+    - name: Generate configuration from Jinja2 template
+      template:
+        src: "vlan-template.j2"
+        dest: "{{ file_loc }}"
+        force: yes
+
+    - name: Read generated file content
+      set_fact:
+        file_con: "{{ lookup('file', file_loc) }}"
+
+    - name: Display content
+      debug:
+        var: file_con
+
+    - name: Save content to result file
+      copy:
+        content: "{{ file_con }}"
+        dest: "{{ result_loc }}"
+        mode: '0644'

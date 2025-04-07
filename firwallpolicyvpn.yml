@@ -1,0 +1,46 @@
+- name: Configure firewall policy on FortiGate
+  hosts: fortigate
+  gather_facts: false
+  tasks:
+    - name: task1
+      fortios_firewall_policy:
+        vdom: "root"
+        state: "present"
+        firewall_policy:
+          policyid: 1 # Ensure this matches the correct policy ID
+          name: "FROM LAN TO WAN"
+          srcintf:
+            - name: "port2"
+          dstintf:
+            - name: "from_200_to_129"
+          action: "accept"
+          srcaddr:
+            - name: "all"
+          dstaddr:
+            - name: "all"
+          schedule: "weekly-schedule"
+          service:
+            - name: "ALL"
+          nat: "enable"
+
+    - name: task2
+      fortios_firewall_policy:
+        vdom: "root"
+        state: "present"
+        firewall_policy:
+          policyid: 2 # Ensure this matches the correct policy ID
+          name: "FROM 200 to 129"
+          srcintf:
+            - name: "from_200_to_129"
+          dstintf:
+            - name: "port2"
+          action: "accept"
+          srcaddr:
+            - name: "all"
+          dstaddr:
+            - name: "all"
+          schedule: "weekly-schedule"
+          service:
+            - name: "ALL"
+          nat: "enable"
+

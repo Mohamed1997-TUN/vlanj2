@@ -1,0 +1,83 @@
+---
+- name: Configure Remote Gateway for IPsec VPN on FortiGate
+  hosts: fortigate
+  connection: httpapi
+  gather_facts: false
+  tasks:
+    - name: Configure Phase 1 with Remote Gateway
+      fortinet.fortios.fortios_vpn_ipsec_phase1_interface:
+        vdom: "root"
+        state: present
+        vpn_ipsec_phase1_interface:
+          name: "from_200_to_129"
+          interface: "port1"
+          peertype: "any"
+          net_device: "enable"
+          proposal: "des-md5"
+          comments: "VPN: from 200 to 129 [Created by VPN wizard]"
+          auto_discovery_sender: "enable"
+          auto_discovery_receiver: "enable"
+          remote_gw: "192.168.11.200"
+          psksecret: "test12345"
+
+    - name: Configure Phase 1 with Remote Gateway
+      fortinet.fortios.fortios_vpn_ipsec_phase2_interface:
+        vdom: "root"
+        state: present
+        vpn_ipsec_phase2_interface:
+          name: "from_129_to_200"
+          phase1name: "from_200_to_129"
+          proposal: "des-md5"
+          src_subnet: "192.168.30.0 255.255.255.0"
+          dst_subnet: "20.20.20.0 255.255.255.0"
+
+    - name: "from_129_to_200"
+      fortios_firewall_policy:
+        vdom: "root"
+        state: "present"
+        firewall_policy:
+          policyid: 1 # Ensure this matches the correct policy ID
+          name: "FROM LAN TO WAN"
+          srcintf:
+            - name: "port2"
+          dstintf:
+            - name: "from_200_to_129"
+          action: "accept"
+          srcaddr:
+            - name: "all"
+          dstaddr:
+            - name: "all"
+          schedule: "weekly-schedule"
+          service:
+            - name: "ALL"
+          nat: "enable"
+
+    - name: "from_200_to_129"
+      fortios_firewall_policy:
+        vdom: "root"
+        state: "present"
+        firewall_policy:
+          policyid: 2 # Ensure this matches the correct policy ID
+          name: "FROM 200 to 129"
+          srcintf:
+            - name: "from_200_to_129"
+          dstintf:
+            - name: "port2"
+          action: "accept"
+          srcaddr:
+            - name: "all"
+          dstaddr:
+            - name: "all"
+          schedule: "weekly-schedule"
+          service:
+            - name: "ALL"
+          nat: "enable"
+
+    - name: Configure Static Route
+      fortinet.fortios.fortios_router_static:
+        vdom: "root"
+        state: "present"
+        router_static:
+          seq_num: 10
+          dst: "20.20.20.0 255.255.255.0"
+          device: "from_200_to_129"  # interface vpn_ipsec

@@ -1,0 +1,40 @@
+- name: Change FortiGate Hostname
+  hosts: fortigate
+  gather_facts: false
+
+  tasks:
+    - name: Set FortiGate Hostname
+      fortinet.fortios.fortios_system_global:
+        vdom: "root"
+        system_global:
+          hostname: "FGT-22"
+    - name: Set Physical Interface Configuration
+      fortinet.fortios.fortios_system_interface:
+        vdom: "root"
+        state: "present"  # Ensure the interface is configured
+        system_interface:
+          name: "VLAN10"  
+          vdom: "root"          # Name of the interface to configure
+          interface: "port2" 
+          vlanid: 100
+          ip: "192.168.100.1/24"
+          allowaccess: "ping,https,ssh"
+          type: "vlan"
+    - name: Add Static Route
+      fortinet.fortios.fortios_router_static:
+        vdom: "root"
+        state: "present"
+        router_static:
+          seq_num: 1   # Numéro de séquence requis
+          device: "port1"
+          dynamic_gateway: "enable"
+          gateway: "192.168.11.2"
+    - name: Add Static Route - Destination 10.10.10.10/32 via port2
+      fortinet.fortios.fortios_router_static:
+        vdom: "root"
+        state: "present"
+        router_static:
+          seq_num: 2
+          dst: "10.10.10.10/32"
+          device: "port2"
+          gateway: "192.168.30.252"

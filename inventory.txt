@@ -1,0 +1,23 @@
+[fortigate]
+192.168.11.129
+
+[fortigate:vars]
+ansible_user=admin  
+ansible_password=admin  
+ansible_network_os=fortinet.fortios.fortios  
+ansible_connection=httpapi  
+ansible_httpapi_use_ssl=no  
+ansible_httpapi_validate_certs=no  
+ansible_httpapi_port=80  
+ansible_httpapi_headers={"Authorization": "Bearer {{ lookup('env', 'fNc6Hgddg06Nd9nhhscyGHdgncNyGx') }}"}
+
+
+[cisco]
+192.168.11.190
+
+[cisco:vars]
+ansible_network_os=cisco.ios.ios
+ansible_connection=network_cli
+ansible_user=cisco
+ansible_password=cisco
+

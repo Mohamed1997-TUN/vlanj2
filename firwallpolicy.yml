@@ -1,0 +1,12 @@
+- name: Configure firewall policy on FortiGate
+  hosts: fortigate
+  gather_facts: false
+  tasks:
+   - name: Configure Static Route
+     fortinet.fortios.fortios_router_static:
+        vdom: "root"
+        state: "present"
+        router_static:
+          seq_num: 10
+          dst: "20.20.20.1 255.255.255.0"
+          device: "from_200_to_129"  # Use the actual interface name

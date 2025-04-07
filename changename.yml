@@ -1,0 +1,10 @@
+- name: Change FortiGate Hostname
+  hosts: fortigate
+  gather_facts: false
+
+  tasks:
+    - name: Configure FortiGate hostname
+      fortios_system_global:
+        vdom: "root"
+        system_global:
+          hostname: "FortiGate-025"

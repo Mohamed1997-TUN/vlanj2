@@ -1,0 +1,15 @@
+- name: Create a basic firewall address object
+  hosts: fortigate
+  gather_facts: false
+  collections:
+    - fortinet.fortios
+  tasks:
+    - name: Create an address object
+      fortios_firewall_address:
+        vdom: "root"
+        state: "present"
+        firewall_address:
+          name: "My_Address_Object"
+          type: "ipmask"
+          subnet: "192.168.1.100 255.255.255.255"
+          comment: "Created via Ansible"

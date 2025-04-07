@@ -1,0 +1,10 @@
+- name: Configure VLANs on Cisco Switch
+  hosts: cisco
+  gather_facts: no
+  tasks:
+    - name: Create VLAN 10
+      cisco.ios.ios_vlans:
+        config:
+          - vlan_id: 10
+            name: Vlan_10
+            state: active

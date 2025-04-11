@@ -1,4 +1,5 @@
+# VLAN configuration
 {% for vlan in vlans %}
-vlan {{ vlan.vlan_id }}
- name {{ vlan.name }}
+vlan {{ vlan.id }}
+  name {{ vlan.name }}
 {% endfor %}

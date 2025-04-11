@@ -4,7 +4,7 @@
   tasks:
     - name: Generate configuration from Jinja2 template
       template:
-        src: "/home/dhia/Desktop/vlanjinja2/template/vlanstemplate.j2"
+        src: template/vlanstemplate.j2
         dest: "/tmp/vlan-config.conf"
         force: yes
 

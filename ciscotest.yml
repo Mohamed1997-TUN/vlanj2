@@ -1,5 +1,5 @@
 - name: Push VLAN configuration directly to remote device
-  hosts: remote_host
+  hosts: cisco
   gather_facts: false
   tasks:
     - name: Generate configuration from Jinja2 template

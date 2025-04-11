@@ -16,7 +16,7 @@
 
     - name: Generate configuration from Jinja2 template
       template:
-        src: "/template/vlanstemplate.j2"
+        src: "template/vlanstemplate.j2"
         dest: "{{ file_loc }}"
         force: yes
 

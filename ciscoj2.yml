@@ -4,8 +4,8 @@
   gather_facts: false
   become: true
   vars:
-    file_loc: "/tmp/vlan-config.conf"
-    result_loc: "/tmp/vlan-result.conf"
+    file_loc: "/home/dhia/Desktop/vlanjinja2/vlan-config.conf"
+    result_loc: "/home/dhia/Desktop/vlanjinja2/vlan-result.conf"
 
   tasks:
     - name: Ensure output directory exists

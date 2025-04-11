@@ -1,0 +1,15 @@
+- name: Push VLAN configuration directly to remote device
+  hosts: remote_host
+  gather_facts: false
+  tasks:
+    - name: Generate configuration from Jinja2 template
+      template:
+        src: "/home/dhia/Desktop/vlanjinja2/vlanstemplate.j2"
+        dest: "/tmp/vlan-config.conf"
+        force: yes
+
+    - name: Apply configuration directly from the template
+      copy:
+        content: "{{ lookup('file', '/tmp/vlan-config.conf') }}"
+        dest: "/etc/network/interfaces"
+        mode: '0644'

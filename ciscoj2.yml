@@ -3,6 +3,7 @@
   hosts: localhost
   gather_facts: false
   become: true
+  become_user: "dhia"
   vars:
     file_loc: "/home/dhia/Desktop/vlanjinja2/vlan-config.conf"
     result_loc: "/home/dhia/Desktop/vlanjinja2/vlan-result.conf"

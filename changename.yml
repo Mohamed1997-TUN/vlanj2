@@ -7,4 +7,4 @@
       fortios_system_global:
         vdom: "root"
         system_global:
-          hostname: "FortiGate-025"
+          hostname: "FortiGate-024"

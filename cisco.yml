@@ -1,7 +1,6 @@
 - name: Configure VLANs on Cisco Switch
   hosts: cisco
   gather_facts: no
-  connection: network_cli
 
   vars_files:
     - vars/vlans.yml
@@ -9,8 +8,9 @@
   tasks:
     - name: Preview VLAN config (Jinja2 template to text file)
       template:
-        src: template/vlanstemplate.j2         # ✅ matches your folder
-        dest: template/vlan_config_preview.txt    # ✅ safe destination
+        src: template/vlantemplate2.j2
+        dest: /tmp/vlan_config_preview.txt
+      delegate_to: localhost
 
     - name: Apply VLAN configuration
       cisco.ios.ios_vlans:
